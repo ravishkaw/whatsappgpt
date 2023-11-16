@@ -1,3 +1,7 @@
+//reffer wwebjs documentation and do changes as you want.
+
+//refer other documentations from all imported npm packages
+
 const qrcode = require("qrcode-terminal");
 const { Client, LocalAuth, MessageMedia } = require("whatsapp-web.js");
 

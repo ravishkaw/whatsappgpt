@@ -1,7 +1,11 @@
+//reffer docummentation https://beta.openai.com/docs/api-reference/completions
+
+//and get api key from https://beta.openai.com/account/api-keys and save it into your system as OPENAI_API_KEY as a environment variable (windows only). in linux paste it directly here
+
 const OpenAI = require("openai");
 
 const openai = new OpenAI({
-  apiKey: "Api key here",
+  apiKey: "Api key here", //apiKey: process.env.OPENAI_API_KEY,
 });
 
 //
