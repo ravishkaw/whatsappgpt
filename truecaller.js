@@ -11,7 +11,7 @@ async function truecallerSearch(msg, chat) {
     number: numberToSearch,
     countryCode: "LK",
     installationId:
-      "a2i09--cRGW9VkaF_5Rl15Qde9kRpUPK5Yqp0goD4waHhYpAGs5cPkg0B6bucWMF",
+      "id here",
   };
 
   try {
