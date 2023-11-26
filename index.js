@@ -17,6 +17,7 @@ const { ytAudio, ytVideo } = require("./youtube");
 const { googleSearch, imageSearch } = require("./google");
 const { truecallerSearch } = require("./truecaller");
 const { tte, tts } = require("./translate");
+const { join, leave, groupInfo, tagAll, adminReport } = require("./group");
 
 client.on("qr", (qr) => {
   qrcode.generate(qr, { small: true });
@@ -50,6 +51,8 @@ client.on("message", async (msg) => {
   //
   const quotedMsg = await msg.getQuotedMessage();
   const chat = await msg.getChat();
+  const contact = await msg.getContact();
+  const authorId = msg.author;
 
   //OpenAI - chat with quoted message
   if (msg.hasQuotedMsg) {
@@ -80,6 +83,32 @@ client.on("message", async (msg) => {
       msg.reply("Hi there. How can I help you?");
       chat.clearState();
     }, 100);
+  }
+
+  //Group commands
+  //join group
+  else if (msg.body.startsWith(".joinlink ")) {
+    join(msg, chat);
+  }
+
+  //leave group
+  else if (msg.body === ".leave") {
+    leave(msg, chat);
+  }
+
+  //group info
+  else if (msg.body === ".groupinfo") {
+    groupInfo(msg, chat);
+  }
+
+  //mention all group members
+  else if (msg.body === ".tagall") {
+    tagAll(msg, chat, client);
+  }
+
+  //admin report
+  else if (msg.body === "@admin" || msg.body.startsWith("@admin")) {
+    adminReport(msg, chat, client);
   }
 
   //OpenAI - Q & A
@@ -123,8 +152,7 @@ client.on("message", async (msg) => {
   //Translate
   else if (msg.body.startsWith(".tte ")) {
     tte(msg, chat);
-  }
-  else if (msg.body.startsWith(".tts ")) {
+  } else if (msg.body.startsWith(".tts ")) {
     tts(msg, chat);
   }
 });
