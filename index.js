@@ -11,13 +11,13 @@ const client = new Client({
   ffmpeg: "/usr/bin/ffmpeg",
 });
 
-const { quotedAI, chatAI } = require("./openai");
-const { stickers, textToSticker } = require("./sticker");
-const { ytAudio, ytVideo } = require("./youtube");
-const { googleSearch, imageSearch } = require("./google");
-const { truecallerSearch } = require("./truecaller");
-const { tte, tts } = require("./translate");
-const { join, leave, groupInfo, tagAll, adminReport } = require("./group");
+const { quotedAI, chatAI } = require("./other-functions/openai");
+const { stickers, textToSticker } = require("./other-functions/sticker");
+const { ytAudio, ytVideo } = require("./other-functions/youtube");
+const { googleSearch, imageSearch } = require("./other-functions/google");
+const { truecallerSearch } = require("./other-functions/truecaller");
+const { tte, tts } = require("./other-functions/translate");
+const { join, leave, groupInfo, tagAll, adminReport } = require("./web-js-functions/group");
 
 client.on("qr", (qr) => {
   qrcode.generate(qr, { small: true });
@@ -88,12 +88,12 @@ client.on("message", async (msg) => {
   //Group commands
   //join group
   else if (msg.body.startsWith(".joinlink ")) {
-    join(msg, chat);
+    join(msg, chat, client);
   }
 
   //leave group
   else if (msg.body === ".leave") {
-    leave(msg, chat);
+    leave(msg, chat, authorId);
   }
 
   //group info
@@ -103,12 +103,12 @@ client.on("message", async (msg) => {
 
   //mention all group members
   else if (msg.body === ".tagall") {
-    tagAll(msg, chat, client);
+    tagAll(msg, chat, client, quotedMsg, authorId);
   }
 
   //admin report
   else if (msg.body === "@admin" || msg.body.startsWith("@admin")) {
-    adminReport(msg, chat, client);
+    adminReport(msg, chat, client, contact);
   }
 
   //OpenAI - Q & A
