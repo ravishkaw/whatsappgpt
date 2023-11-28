@@ -4,6 +4,7 @@
 
 const qrcode = require("qrcode-terminal");
 const { Client, LocalAuth, MessageMedia } = require("whatsapp-web.js");
+const fs = require("fs");
 
 const client = new Client({
   authStrategy: new LocalAuth(),
@@ -17,7 +18,14 @@ const { ytAudio, ytVideo } = require("./other-functions/youtube");
 const { googleSearch, imageSearch } = require("./other-functions/google");
 const { truecallerSearch } = require("./other-functions/truecaller");
 const { tte, tts } = require("./other-functions/translate");
-const { join, leave, groupInfo, tagAll, adminReport } = require("./web-js-functions/group");
+const {
+  join,
+  leave,
+  groupInfo,
+  tagAll,
+  adminReport,
+} = require("./web-js-functions/group");
+const { addToFile, removeFromFile } = require("./web-js-functions/others");
 
 client.on("qr", (qr) => {
   qrcode.generate(qr, { small: true });
@@ -122,11 +130,11 @@ client.on("message", async (msg) => {
 
   //make whatsapp stickers
   else if (msg.body === ".sticker") {
-    stickers(msg, chat, MessageMedia, client);
+    stickers(msg, chat, fs, MessageMedia, client);
   }
   //text to sticker
   else if (msg.body === ".txt") {
-    textToSticker(msg, chat, quotedMsg, MessageMedia, client);
+    textToSticker(msg, chat, fs, quotedMsg, MessageMedia, client);
   }
 
   //yt download
@@ -158,5 +166,14 @@ client.on("message", async (msg) => {
     tte(msg, chat);
   } else if (msg.body.startsWith(".tts ")) {
     tts(msg, chat);
+  }
+
+  //Files write
+  else if (msg.body.startsWith(".add ")) {
+    addToFile(msg, chat, fs);
+  } 
+  //remove
+  else if (msg.body.startsWith(".rem ")) {
+    removeFromFile(msg, chat, fs);
   }
 });
