@@ -35,7 +35,7 @@ let insructions = `(#instructions)
 - When generating content such as poems, code, summaries and lyrics, you should rely on your own words and knowledge.`;
 
 //
-async function quotedAI(msg, chat, quotedMsg) {
+const quotedAI = async (msg, chat, quotedMsg) => {
   chat.sendSeen();
   msg.react("💬");
   chat.sendStateTyping();
@@ -74,10 +74,10 @@ async function quotedAI(msg, chat, quotedMsg) {
       chat.clearState();
     }
   }
-}
+};
 
 //Openai - chat Q & A
-async function chatAI(msg, chat) {
+const chatAI = async (msg, chat) => {
   chat.sendSeen();
   chat.sendStateTyping();
   msg.react("💬");
@@ -115,6 +115,36 @@ async function chatAI(msg, chat) {
       chat.clearState();
     }
   }
-}
+};
+
+//Dall E gen
+const imageGen = async (msg, chat, MessageMedia) => {
+  msg.react("🔄️");
+  try {
+    const response = await openai.images.generate({
+      model: "dall-e-3",
+      prompt: msg.body.slice(5),
+      n: 1,
+      size: "1024x1024",
+    });
+    image_url = response.data.data[0].url; //this need to be checked
+    const media = await MessageMedia.fromUrl(image_url);
+    chat.sendMessage(media, {
+      caption: `Revised prompt -: ${response.data.data[0].revised_prompt}`, //this need to be checked
+    });
+  } catch (error) {
+    if (error.response) {
+      console.log(error.response.status);
+      console.log(error.response.data);
+      msg.reply(
+        "Invalid request or Your request was rejected as a result of our safety system."
+      );
+    } else {
+      console.log(error.message);
+    }
+  }
+};
+
 module.exports.quotedAI = quotedAI;
 module.exports.chatAI = chatAI;
+module.exports.imageGen = imageGen;
