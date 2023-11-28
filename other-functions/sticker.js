@@ -1,5 +1,4 @@
 const mime = require("mime-types");
-const fs = require("fs");
 const path = require("path");
 const { UltimateTextToImage } = require("ultimate-text-to-image");
 
@@ -7,7 +6,7 @@ const getRandom = (ext) => {
   return `${Math.floor(Math.random() * 10000)}${ext}`;
 };
 
-async function stickers(msg, chat, MessageMedia, client) {
+async function stickers(msg, chat, fs, MessageMedia, client) {
   chat.sendSeen();
   if (msg.hasMedia) {
     msg.react("✅");
@@ -54,7 +53,9 @@ async function stickers(msg, chat, MessageMedia, client) {
 }
 
 //text to sticker
-async function textToSticker(msg, chat, quotedMsg, MessageMedia, client) {
+//!this is not working. have to check
+
+async function textToSticker(msg, chat, fs, quotedMsg, MessageMedia, client) {
   if (quotedMsg) {
     if (quotedMsg.type == "chat") {
       try {
