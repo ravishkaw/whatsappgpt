@@ -11,7 +11,7 @@ const client = new Client({
   ffmpeg: "/usr/bin/ffmpeg",
 });
 
-const { quotedAI, chatAI } = require("./other-functions/openai");
+const { quotedAI, chatAI, imageGen } = require("./other-functions/openai");
 const { stickers, textToSticker } = require("./other-functions/sticker");
 const { ytAudio, ytVideo } = require("./other-functions/youtube");
 const { googleSearch, imageSearch } = require("./other-functions/google");
@@ -114,6 +114,10 @@ client.on("message", async (msg) => {
   //OpenAI - Q & A
   else if (msg.body.startsWith(".bb ") || msg.body.startsWith(".bibi ")) {
     chatAI(msg, chat);
+  }
+  //OpenAI image gen Dall -e
+  else if (msg.body.startsWith(".gen ")) {
+    imageGen(msg, chat, MessageMedia);
   }
 
   //make whatsapp stickers
