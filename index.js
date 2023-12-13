@@ -8,7 +8,10 @@ const fs = require("fs");
 
 const client = new Client({
   authStrategy: new LocalAuth(),
-  puppeteer: { args: ["--no-sandbox", "--disable-setuid-sandbox"] },
+  puppeteer: {
+    args: ["--no-sandbox", "--disable-setuid-sandbox"],
+    executablePath: "/usr/bin/google-chrome-stable", // macOS: /Applications/Google Chrome.app/Contents/MacOS/Google Chrome || Windows: C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe
+  },
   ffmpeg: "/usr/bin/ffmpeg",
 });
 
@@ -25,6 +28,9 @@ const {
   tagAll,
   adminReport,
 } = require("./web-js-functions/group");
+const { sharepoint } = require("./other-functions/sharepointDownloader");
+const { instagramDownload } = require("./other-functions/insta");
+const { facebookDownload } = require("./other-functions/facebook");
 const { addToFile, removeFromFile } = require("./web-js-functions/others");
 
 client.on("qr", (qr) => {
@@ -147,6 +153,19 @@ client.on("message", async (msg) => {
     ytAudio(msg, chat, MessageMedia, client);
   }
 
+  //insta
+  else if (msg.body.startsWith("https://www.instagram.com")) {
+    instagramDownload(msg, chat, MessageMedia, client);
+  }
+
+  //facebook
+  else if (
+    msg.body.startsWith("https://www.facebook.com/") ||
+    msg.body.startsWith("https://fb.watch")
+  ) {
+    facebookDownload(msg, chat, MessageMedia, client);
+  }
+
   //google search
   else if (msg.body.startsWith(".search ")) {
     googleSearch(msg, chat);
@@ -168,10 +187,15 @@ client.on("message", async (msg) => {
     tts(msg, chat);
   }
 
+  //sharepoint
+  else if (msg.body.startsWith(".dl ")) {
+    sharepoint(msg, chat, MessageMedia, client);
+  }
+
   //Files write
   else if (msg.body.startsWith(".add ")) {
     addToFile(msg, chat, fs);
-  } 
+  }
   //remove
   else if (msg.body.startsWith(".rem ")) {
     removeFromFile(msg, chat, fs);
