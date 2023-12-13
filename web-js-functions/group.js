@@ -57,17 +57,22 @@ const groupInfo = async (msg, chat) => {
 //mentioning all group members
 const tagAll = async (msg, chat, client, quotedMsg, authorId) => {
   chat.sendSeen();
+  console.log(quotedMsg.body);
   if (chat.isGroup) {
     for (let participant of chat.participants) {
       if (participant.id._serialized === authorId && participant.isAdmin) {
-        let mentions = [];
+        let mentionsList = [];
+        // let text = "";
 
         for (let participant of chat.participants) {
           const members = await client.getContactById(
             participant.id._serialized
           );
-          mentions.push(members);
+          mentionsList.push(members);
         }
+        // client.sendMessage(msg.from, text, {
+        //   mentions: mentionsList,
+        // });
 
         //mentioning options
         if (quotedMsg) {
