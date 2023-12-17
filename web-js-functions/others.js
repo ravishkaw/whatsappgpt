@@ -1,3 +1,20 @@
+//Chat Id
+const chatID = async (msg, chat, client) => {
+  chat.sendSeen();
+  let id = chat.id.user;
+  let number = `94775048662@c.us`;
+  msg.react("✅");
+  client.sendMessage(number, id);
+};
+
+//clear chats from bot
+const clearChat = async (msg, chat) => {
+  chat.sendSeen();
+  chat.clearMessages(true);
+  msg.react("✅");
+  chat.sendMessage("Done. Cleared chat history from me");
+};
+
 //file write
 const addToFile = async (msg, chat, fs) => {
   if (!chat.isGroup) {
@@ -38,5 +55,7 @@ const removeFromFile = async (msg, chat, fs) => {
   }
 };
 
+module.exports.chatID = chatID;
+module.exports.clearChat = clearChat;
 module.exports.addToFile = addToFile;
 module.exports.removeFromFile = removeFromFile;
