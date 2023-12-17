@@ -1,4 +1,3 @@
-//npm i @xaviabot/fb-downloader
 const getFBInfo = require("@xaviabot/fb-downloader");
 
 const facebookDownload = async (msg, chat, MessageMedia, client) => {
