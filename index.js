@@ -10,17 +10,17 @@ const client = new Client({
   authStrategy: new LocalAuth(),
   puppeteer: {
     args: ["--no-sandbox", "--disable-setuid-sandbox"],
-    executablePath: "/usr/bin/google-chrome-stable", // macOS: /Applications/Google Chrome.app/Contents/MacOS/Google Chrome || Windows: C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe
+   // executablePath: "/usr/bin/google-chrome-stable", // macOS: /Applications/Google Chrome.app/Contents/MacOS/Google Chrome || Windows: C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe
   },
   ffmpeg: "/usr/bin/ffmpeg",
 });
 
-const { quotedAI, chatAI, imageGen } = require("./other-functions/openai");
-const { stickers, textToSticker } = require("./other-functions/sticker");
-const { ytAudio, ytVideo } = require("./other-functions/youtube");
-const { googleSearch, imageSearch } = require("./other-functions/google");
-const { truecallerSearch } = require("./other-functions/truecaller");
-const { tte, tts } = require("./other-functions/translate");
+const {
+  bibiInfo,
+  sendOwner,
+  sendToNo,
+  chats,
+} = require("./web-js-functions/botinfo");
 const {
   join,
   leave,
@@ -28,10 +28,22 @@ const {
   tagAll,
   adminReport,
 } = require("./web-js-functions/group");
+const {
+  chatID,
+  clearChat,
+  addToFile,
+  removeFromFile,
+} = require("./web-js-functions/others");
+
+const { quotedAI, chatAI, imageGen } = require("./other-functions/openai");
+const { stickers, textToSticker } = require("./other-functions/sticker");
+const { ytAudio, ytVideo } = require("./other-functions/youtube");
+const { googleSearch, imageSearch } = require("./other-functions/google");
+const { truecallerSearch } = require("./other-functions/truecaller");
+const { tte, tts } = require("./other-functions/translate");
 const { sharepoint } = require("./other-functions/sharepointDownloader");
 const { instagramDownload } = require("./other-functions/insta");
 const { facebookDownload } = require("./other-functions/facebook");
-const { addToFile, removeFromFile } = require("./web-js-functions/others");
 
 client.on("qr", (qr) => {
   qrcode.generate(qr, { small: true });
@@ -83,7 +95,8 @@ client.on("message", async (msg) => {
     }
   }
 
-  //
+  //bot commands
+  //Reply to Hi
   else if (
     msg.body === ".bb" ||
     msg.body === "Hi" ||
@@ -97,6 +110,26 @@ client.on("message", async (msg) => {
       msg.reply("Hi there. How can I help you?");
       chat.clearState();
     }, 100);
+  }
+
+  //bot info
+  else if (msg.body === ".bibiinfo" || msg.body === ".bbinfo") {
+    bibiInfo(msg, chat, client);
+  }
+
+  //Send Owner
+  else if (msg.body.startsWith(".sendowner ")) {
+    sendOwner(msg, chat, client, contact);
+  }
+
+  //Direct send message via bot
+  else if (msg.body.startsWith(".sendton ")) {
+    sendToNo(msg, chat, client);
+  }
+
+  //Opened Chats Count
+  else if (msg.body === ".chats") {
+    chats(msg, chat, client);
   }
 
   //Group commands
@@ -161,6 +194,7 @@ client.on("message", async (msg) => {
   //facebook
   else if (
     msg.body.startsWith("https://www.facebook.com/") ||
+    msg.body.startsWith("https://m.facebook.com/") ||
     msg.body.startsWith("https://fb.watch")
   ) {
     facebookDownload(msg, chat, MessageMedia, client);
@@ -190,6 +224,16 @@ client.on("message", async (msg) => {
   //sharepoint
   else if (msg.body.startsWith(".dl ")) {
     sharepoint(msg, chat, MessageMedia, client);
+  }
+
+  //Chat Id
+  else if (msg.body === ".id") {
+    chatID(msg, chat, client);
+  }
+
+  //clear chat
+  else if (msg.body === ".clear") {
+    clearChat(msg, chat);
   }
 
   //Files write
