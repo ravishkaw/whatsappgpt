@@ -5,7 +5,7 @@
 const OpenAI = require("openai");
 
 const openai = new OpenAI({
-  apiKey: "Api key here", //apiKey: process.env.OPENAI_API_KEY,
+  apiKey: "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", //apiKey: process.env.OPENAI_API_KEY,
 });
 
 //
@@ -54,7 +54,6 @@ const quotedAI = async (msg, chat, quotedMsg) => {
       presence_penalty: 0.6,
       user: msg.author,
     });
-    //console.log(completion.data.choices[0].message);
     setTimeout(() => {
       msg.react("✅");
       msg.reply(completion.choices[0].message.content);
@@ -95,7 +94,6 @@ const chatAI = async (msg, chat) => {
       presence_penalty: 0.6,
       user: msg.author,
     });
-    //console.log(completion.choices[0].message.content);
     setTimeout(() => {
       msg.react("✅");
       msg.reply(completion.choices[0].message.content);
@@ -121,16 +119,13 @@ const chatAI = async (msg, chat) => {
 const imageGen = async (msg, chat, MessageMedia) => {
   msg.react("🔄️");
   try {
-    const response = await openai.images.generate({
+    const image = await openai.images.generate({
       model: "dall-e-3",
       prompt: msg.body.slice(5),
-      n: 1,
-      size: "1024x1024",
     });
-    image_url = response.data.data[0].url; //this need to be checked
-    const media = await MessageMedia.fromUrl(image_url);
+    const media = await MessageMedia.fromUrl(image.data[0].url);
     chat.sendMessage(media, {
-      caption: `Revised prompt -: ${response.data.data[0].revised_prompt}`, //this need to be checked
+      caption: `Revised prompt -: ${image.data[0].revised_prompt}`,
     });
   } catch (error) {
     if (error.response) {
