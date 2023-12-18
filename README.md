@@ -56,6 +56,9 @@ Unofficial WhatsApp bot with many features!
       `npm install mime-types`
 
       `npm install @google/generative-ai`
+
+      
+      * Or use package.json file and run `npm install`
       
       
      Also if you are running on Linux server you must use following two commands
@@ -69,7 +72,7 @@ Unofficial WhatsApp bot with many features!
       
        sudo apt install google-chrome-stable
      
-3. Also to make stickers, sharepoint download; need ffmpeg. 
+4. Also to make stickers, sharepoint download; need ffmpeg. 
 
     If you are a windows user download it from [here](https://www.gyan.dev/ffmpeg/builds/) and extract ffmpeg.exe to folder that created (wabot)
     
