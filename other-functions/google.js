@@ -1,7 +1,7 @@
 const gis = require("async-g-i-s");
 const google = require("googlethis");
 
-async function googleSearch(msg, chat) {
+const googleSearch = async (msg, chat) => {
   chat.sendSeen();
   chat.sendStateTyping();
   msg.react("🔍");
@@ -31,15 +31,14 @@ async function googleSearch(msg, chat) {
     msg.reply(error.toString());
     chat.clearState();
   }
-}
+};
 
-async function imageSearch(msg, MessageMedia) {
+const imageSearch = async (msg, MessageMedia) => {
   msg.react("🔄️");
   (async () => {
     try {
       let imageSearch = msg.body.slice(5);
       const results = await gis(imageSearch);
-      //console.log(results[0].url);
       const imageSearch1 = await MessageMedia.fromUrl(results[0].url);
       const imageSearch2 = await MessageMedia.fromUrl(results[1].url);
       const imageSearch3 = await MessageMedia.fromUrl(results[2].url);
@@ -52,10 +51,9 @@ async function imageSearch(msg, MessageMedia) {
     } catch (e) {
       msg.react("❗");
       msg.reply("Something went wrong.");
-      //console.error(e);
     }
   })();
-}
+};
 
 module.exports.googleSearch = googleSearch;
 module.exports.imageSearch = imageSearch;
