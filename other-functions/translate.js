@@ -1,6 +1,6 @@
 const translate = require("google-translate-api-x");
 
-async function tte(msg, chat) {
+const tte = async  (msg, chat)=> {
   chat.sendSeen();
   chat.sendStateTyping();
   msg.react("🔄️");
@@ -14,7 +14,7 @@ async function tte(msg, chat) {
 }
 
 //sin
-async function tts(msg, chat) {
+const  tts = async(msg, chat) => {
   chat.sendSeen();
   chat.sendStateTyping();
   msg.react("🔄️");
