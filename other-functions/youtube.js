@@ -1,5 +1,4 @@
 const ytdl = require("ytdl-core");
-const mime = require("mime-types");
 const fs = require("fs");
 
 const getRandom = (ext) => {
@@ -18,12 +17,9 @@ async function ytVideo(msg, chat, MessageMedia, client) {
       await msg.reply(`Give youtube video link to download audio!`);
       return;
     }
-    // await msg.reply(
-    //   "Checking if the video is longer than 30 minutes...\n\nWhole process may take a while!"
-    // );
 
     let infoYt = await ytdl.getInfo(urlYt);
-    //30 MIN
+    //2 hrs
     if (infoYt.videoDetails.lengthSeconds >= 7200) {
       msg.react("🚫");
       await msg.reply(`Video is longer than 120 minutes!`);
@@ -38,7 +34,6 @@ async function ytVideo(msg, chat, MessageMedia, client) {
     }).pipe(fs.createWriteStream(`./mediafiles/${Name}`));
     //22 - 1080p/720p and 18 - 360p
 
-    //console.log("Video downloading ->", urlYt);
     //await msg.reply("Downloading.. This may take upto 5 min!");
     await new Promise((resolve, reject) => {
       stream.on("error", reject);
@@ -49,7 +44,6 @@ async function ytVideo(msg, chat, MessageMedia, client) {
     let fileSizeInBytes = stats.size;
     // Convert the file size to megabytes (optional)
     let fileSizeInMegabytes = fileSizeInBytes / (1024 * 1024);
-    //console.log("Video downloaded ! Size: " + fileSizeInMegabytes);
 
     if (fileSizeInMegabytes <= 500) {
       const media = MessageMedia.fromFilePath(`./mediafiles/${Name}`);
@@ -86,12 +80,9 @@ async function ytAudio(msg, chat, MessageMedia, client) {
       await msg.reply(`Give youtube video link to download audio!`);
       return;
     }
-    // await msg.reply(
-    //   "Checking if the video is longer than 30 minutes...\n\nWhole process may take a while!"
-    // );
 
     let infoYt = await ytdl.getInfo(urlYt);
-    //30 MIN
+    //2hrs
     if (infoYt.videoDetails.lengthSeconds >= 7200) {
       msg.react("🚫");
       await msg.reply(`Video is longer than 120 minutes!`);
@@ -105,7 +96,6 @@ async function ytAudio(msg, chat, MessageMedia, client) {
       filter: (info) => info.audioBitrate == 160 || info.audioBitrate == 128,
     }).pipe(fs.createWriteStream(`./mediafiles/${Name}`));
 
-    //console.log("Audio downloading ->", urlYt);
     //await msg.reply("Downloading.. This may take upto 5 min!");
 
     await new Promise((resolve, reject) => {
@@ -117,7 +107,6 @@ async function ytAudio(msg, chat, MessageMedia, client) {
     let fileSizeInBytes = stats.size;
     // Convert the file size to megabytes (optional)
     let fileSizeInMegabytes = fileSizeInBytes / (1024 * 1024);
-    //console.log("Audio downloaded ! Size: " + fileSizeInMegabytes);
 
     if (fileSizeInMegabytes <= 200) {
       const media = MessageMedia.fromFilePath(`./mediafiles/${Name}`);
