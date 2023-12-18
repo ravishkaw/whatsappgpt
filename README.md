@@ -11,6 +11,7 @@ Unofficial WhatsApp bot with many features!
 * Translate any language to any language (Google-translate-api)
 * Make WhatsApp stickers within chat 
 * [Openai](https://openai.com/) chat and Image generation (openai)
+* [Gemini](https://deepmind.google/technologies/gemini/#introduction) Features (generative-ai)
 * Truecaller (truecallerjs)
 * Youtube download (ytdl-core)
 * Facebook download (@xaviabot/fb-downloader)
@@ -21,7 +22,7 @@ Unofficial WhatsApp bot with many features!
 
 ## Installation
 
-- Node v12+ is required
+- Node v18+ is required
 - Install Gitbash
 - ffmpeg required
 
@@ -53,6 +54,8 @@ Unofficial WhatsApp bot with many features!
       `npm i @sasmeee/igdl`
 
       `npm install mime-types`
+
+      `npm install @google/generative-ai`
       
       
      Also if you are running on Linux server you must use following two commands
