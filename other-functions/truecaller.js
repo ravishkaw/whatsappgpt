@@ -1,6 +1,6 @@
 const truecallerjs = require("truecallerjs");
 
-async function truecallerSearch(msg, chat) {
+const truecallerSearch = async (msg, chat) => {
   chat.sendSeen();
   chat.sendStateTyping();
   msg.react("🔄️");
