@@ -6,7 +6,7 @@ const getRandom = (ext) => {
 };
 
 //video
-async function ytVideo(msg, chat, MessageMedia, client) {
+const ytVideo = async (msg, chat, MessageMedia, client) => {
   try {
     chat.sendSeen();
     msg.react("🔄️");
@@ -66,10 +66,10 @@ async function ytVideo(msg, chat, MessageMedia, client) {
     msg.react("❗");
     msg.reply(err.toString());
   }
-}
+};
 
 //audio
-async function ytAudio(msg, chat, MessageMedia, client) {
+const ytAudio = async (msg, chat, MessageMedia, client) => {
   try {
     chat.sendSeen();
     msg.react("🔄️");
@@ -129,7 +129,7 @@ async function ytAudio(msg, chat, MessageMedia, client) {
     msg.react("❗");
     msg.reply(err.toString());
   }
-}
+};
 
 module.exports.ytVideo = ytVideo;
 module.exports.ytAudio = ytAudio;
