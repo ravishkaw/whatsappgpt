@@ -6,7 +6,7 @@ const getRandom = (ext) => {
   return `${Math.floor(Math.random() * 10000)}${ext}`;
 };
 
-async function stickers(msg, chat, fs, MessageMedia, client) {
+const stickers = async (msg, chat, fs, MessageMedia, client) => {
   chat.sendSeen();
   if (msg.hasMedia) {
     msg.react("✅");
@@ -50,12 +50,19 @@ async function stickers(msg, chat, fs, MessageMedia, client) {
     msg.react("🚫");
     msg.reply(`send image/video/gif with caption *.sticker* `);
   }
-}
+};
 
 //text to sticker
 //!this is not working. have to check
 
-async function textToSticker(msg, chat, fs, quotedMsg, MessageMedia, client) {
+const textToSticker = async (
+  msg,
+  chat,
+  fs,
+  quotedMsg,
+  MessageMedia,
+  client
+) => {
   if (quotedMsg) {
     if (quotedMsg.type == "chat") {
       try {
@@ -109,7 +116,7 @@ async function textToSticker(msg, chat, fs, quotedMsg, MessageMedia, client) {
     msg.react("🚫");
     msg.reply("Quote/ mention a text message to make a sticker");
   }
-}
+};
 
 module.exports.stickers = stickers;
 module.exports.textToSticker = textToSticker;
