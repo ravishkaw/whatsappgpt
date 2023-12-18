@@ -6,7 +6,6 @@ const facebookDownload = async (msg, chat, MessageMedia, client) => {
   try {
     let URL = msg.body;
     const result = await getFBInfo(URL);
-    console.log(result);
     const media = await MessageMedia.fromUrl(result.hd, {
       unsafeMime: true,
     });
