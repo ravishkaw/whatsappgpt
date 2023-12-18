@@ -5,7 +5,7 @@
 const OpenAI = require("openai");
 
 const openai = new OpenAI({
-  apiKey: "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", //apiKey: process.env.OPENAI_API_KEY,
+  apiKey: "api key here", //apiKey: process.env.OPENAI_API_KEY,
 });
 
 //
