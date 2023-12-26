@@ -13,6 +13,7 @@ const client = new Client({
     executablePath: "/usr/bin/google-chrome-stable", // macOS: /Applications/Google Chrome.app/Contents/MacOS/Google Chrome || Windows: C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe
   },
   ffmpeg: "/usr/bin/ffmpeg",
+  //ffmpeg: "C:\\ffmpeg\\bin\\ffmpeg.exe",
 });
 
 const {
@@ -36,7 +37,7 @@ const {
 } = require("./web-js-functions/others");
 
 const { quotedAI, chatAI, imageGen } = require("./other-functions/openai");
-const { gemini } = require("./other-functions/gemini");
+const { gemini, geminiImage } = require("./other-functions/gemini");
 const { stickers, textToSticker } = require("./other-functions/sticker");
 const { ytAudio, ytVideo } = require("./other-functions/youtube");
 const { googleSearch, imageSearch } = require("./other-functions/google");
@@ -164,13 +165,18 @@ client.on("message", async (msg) => {
     chatAI(msg, chat);
   }
   //OpenAI image gen Dall -e
-  else if (msg.body.startsWith(".ben ")) {
+  else if (msg.body.startsWith(".gen ")) {
     imageGen(msg, chat, MessageMedia);
   }
 
   //Gemini
   else if (msg.body.startsWith(".gemini ")) {
     gemini(msg, chat);
+  }
+
+  //Gemini Image Recognition
+  else if (msg.body.startsWith(".imggemini ")) {
+    geminiImage(msg, chat);
   }
 
   //make whatsapp stickers
